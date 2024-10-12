@@ -4,495 +4,478 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carvajal's Playlist</title>
-    <link rel="icon" href="images/logo.png" type="png" sizes="96x96"/>
-
+    <link rel="icon" href="images/logo.png" type="image/png" sizes="96x96">
     <style>
         body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            background-color: #121212;
-            color: white;
-            margin: 0;
-            padding: 0;
-        }
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #121212;
+    color: white;
+    margin: 0;
+    padding: 0;
+}
 
-        h1 {
-            text-align: center;
-            margin-top: 20px;
-            color: #1DB954;
-            
-        }
+h1 {
+    text-align: center;
+    margin-top: 20px;
+    color: #1DB954;
+}
 
-        .playlist {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin: 20px;
-        }
+.playlist {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 20px;
+}
 
-        .music-card {
-            background-color: #181818;
-            border-radius: 10px;
-            overflow: hidden;
-            width: 200px;
-            margin: 15px;
-            transition: transform 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            position: relative;
-        }
+.music-card {
+    background-color: #181818;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 200px;
+    margin: 15px;
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
 
-        .music-card:hover {
-            transform: scale(1.05);
-        }
+.music-card:hover {
+    transform: scale(1.05);
+}
 
-        .music-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
+.music-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
 
-        .music-info {
-            padding: 15px;
-            text-align: center;
-        }
+.music-info {
+    padding: 15px;
+    text-align: center;
+}
 
-        .music-info h3 {
-            margin: 10px 0 5px;
-            font-size: 20px;
-        }
+.music-info h3 {
+    margin: 10px 0 5px;
+    font-size: 20px;
+}
 
-        .music-info p {
-            margin: 5px 0;
-            font-size: 14px;
-            color: #b3b3b3;
-            text-align: left;
-        }
+.music-info p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #b3b3b3;
+    text-align: left;
+}
 
-        .music-info p:first-of-type {
-            text-align: center;
-            font-size: 17px;
-            color: #b3b3b3;
-        }
+.music-info p:first-of-type {
+    text-align: center;
+    font-size: 17px;
+    color: #b3b3b3;
+}
 
-        
-        .music-info p:last-of-type {
-            text-align: left;
-            font-size: 17px;
-            color: #b3b3b3;
-        }
+.music-info p:last-of-type {
+    text-align: left;
+    font-size: 17px;
+    color: #b3b3b3;
+}
 
-        .play-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: rgba(29, 185, 84, 0.8); 
-            color: transparent;
-            width: 40px;
-            height: 40px;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transition: opacity 0.3s ease, background-color 0.3s ease;
-        }
+.play-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(29, 185, 84, 0.8); 
+    color: transparent;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease, background-color 0.3s ease;
+}
 
-        .music-card:hover .play-button {
-            opacity: 1;
-        }
+.music-card:hover .play-button {
+    opacity: 1;
+}
 
-        .play-button:hover {
-            transform: scale(1.1);
-            background-color: rgba(29, 185, 84, 1); 
-        }
+.play-button:hover {
+    transform: scale(1.1);
+    background-color: rgba(29, 185, 84, 1); 
+}
 
-        .play-icon, .pause-icon {
-            width: 0;
-            height: 0;
-            border-style: solid;
-        }
+.play-icon, .pause-icon {
+    width: 0;
+    height: 0;
+    border-style: solid;
+}
 
-        .play-icon {
-            border-width: 10px 0 10px 15px;
-            border-color: transparent transparent transparent black;
-            margin-left: 3px;
-        }
+.play-icon {
+    border-width: 10px 0 10px 15px;
+    border-color: transparent transparent transparent black;
+    margin-left: 3px;
+}
 
-        .pause-icon {
-            display: flex;
-            justify-content: space-between;
-            width: 15px;
-            height: 15px;
+.pause-icon {
+    display: flex;
+    justify-content: space-between;
+    width: 15px;
+    height: 15px;
+}
 
-        }
+.pause-icon::before,
+.pause-icon::after {
+    content: '';
+    width: 4px;
+    height: 15px;
+    background-color: black;
+}
 
-        .pause-icon::before,
-        .pause-icon::after {
-            content: '';
-            width: 4px;
-            height: 15px;
-            background-color: black;
-        }
+#volume-control {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    border-radius: 20px;
+}
 
-        #volume-control {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        display: flex;
-        align-items: center;
-        background-color: rgba(255, 255, 255, 0.1);
-        padding: 10px;
-        border-radius: 20px;
-    }
+#audio-controls {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    border-radius: 20px;
+}
 
-    #audio-controls {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            display: flex;
-            align-items: center;
-            background-color: rgba(255, 255, 255, 0.1);
-            padding: 10px;
-            border-radius: 20px;
-        }
+#global-play-pause {
+    background-color: #1DB954;
+    color: transparent;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+}
 
-        #global-play-pause {
-            background-color: #1DB954;
-            color: transparent;
-            width: 40px;
-            height: 40px;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-right: 10px;
-        }
+#global-play-pause:hover {
+    transform: scale(1.1);
+}
 
-        #global-play-pause:hover {
-            transform: scale(1.1);
-        }
-
-        #volume-slider {
-            width: 100px;
-            margin-left: 10px;
-        }
+#volume-slider {
+    width: 100px;
+    margin-left: 10px;
+}
     </style>
 </head>
+
 <body>
     <h1> <a href="https://linktr.ee/iziikiel1908" target="_blank" style="text-decoration: none; color: #1DB954">My Favorite Playlist </a> </h1> 
 
     <div id="audio-controls">
         <button id="global-play-pause" onclick="toggleGlobalPlayPause()">
-            <div class="play-icon"></div>
+            <span class="play-icon"></span>
         </button>
         <label for="volume-slider">Volume:</label>
         <input type="range" id="volume-slider" min="0" max="1" step="0.1" value="1">
     </div>
 
     <div class="playlist">
-
-        
         <div class="music-card">
-            <img src="images/johnson.jpg" alt="Artist cover for Cinnamon Sugar by Johnson">
+            <img src="images/johnson.jpg" alt="Song 1">
             <div class="music-info">
                 <h3><em>Cinnamon Sugar</em></h3>
                 <p><strong><i>Johnson</i></strong></p>
                 <p><em><b>“Cinnamon Sugar”</b></em> depicts the sweetness of discovering affection, relationship, and passion. It is a heartwarming story about a newfound love.</p>
             </div>
             <button class="play-button" onclick="togglePlay(this, 'songs/song1.mp3')">
-                <div class="play-icon"></div>
+                <span class="play-icon"></span>
             </button>
         </div>
 
+        
         <div class="music-card">
-            <img src="images/taylor.jpg" alt="Artist cover for Daylight by Taylor Swift">
+            <img src="images/taylor.jpg" alt="Song 2">
             <div class="music-info">
                 <h3><em>Daylight</em></h3>
                 <p><strong><i>Taylor Swift</i></strong></p>
                 <p><em><b>“Daylight”</b></em> is about leaving a time of darkness and embracing forgiveness for yourself and others.</p>
             </div>
             <button class="play-button" onclick="togglePlay(this, 'songs/song2.mp3')">
-                <div class="play-icon"></div>
+                <span class="play-icon"></span>
             </button>
         </div>
-    
-        
+
         <div class="music-card">
-            <img src="images/dcher.png" alt="Artist cover for Best Part by Daniel Caesar featuring H.E.R.">
+            <img src="images/dcher.png" alt="Song 3">
             <div class="music-info">
                 <h3><em>Best Part</em></h3>
                 <p><strong><i>Daniel Caesar <br>(feat. H.E.R.) </i></strong></p>
                 <p><em><b>“Best Part”</b></em> is a soulful ode to love, celebrating how a special person makes life complete.</p>
             </div>
             <button class="play-button" onclick="togglePlay(this, 'songs/song3.mp3')">
-                <div class="play-icon"></div>
+                <span class="play-icon"></span>
             </button>
         </div>
-        
-        
+
         <div class="music-card">
-            <img src="images/dionela.jpg" alt="Artist cover for Sining by Dionela featuring Jay R">
+            <img src="images/dionela.jpg" alt="Song 4">
             <div class="music-info">
                 <h3><em>Sining</em></h3>
                 <p><strong><i>Dionela <br> (feat. Jay R)</i></strong></p>
                 <p><em><b>“Sining”</b></em> is the song he wrote as a final message to his loved ones, reflecting on mortality and his deep feelings for her girlfriend, who inspired it while playing her piano.</p>
             </div>
             <button class="play-button" onclick="togglePlay(this, 'songs/song4.mp3')">
-                <div class="play-icon"></div>
+                <span class="play-icon"></span>
             </button>
         </div>
 
-        
         <div class="music-card">
-            <img src="images/twnd.jpg" alt="Artist cover for Die For You by The Weeknd featuring Ariana Grande">
+            <img src="images/twnd.jpg" alt="Song 5">
             <div class="music-info">
                 <h3><em>Die For You</em></h3>
                 <p><strong><i>The Weeknd <br> (feat. Ariana Grande)</i></strong></p>
                 <p><em><b>“Die For You”</b></em> is a powerful and emotional song that explores the theme of unconditional love and sacrifice.</p>
             </div>
             <button class="play-button" onclick="togglePlay(this, 'songs/song5.mp3')">
-                <div class="play-icon"></div>
+                <span class="play-icon"></span>
             </button>
         </div>
 
-        
         <div class="music-card">
-            <img src="images/dhruv.jpg"  alt="Artist cover for double take by Dhruv">
+            <img src="images/dhruv.jpg" alt="Song 6">
             <div class="music-info">
                 <h3><em>double take</em></h3>
                 <p><strong><i>Dhruv</i></strong></p>
                 <p><em><b>“double take”</b></em> is a song about falling in love with a friend and how dizzying that can feel.</p>
             </div>
             <button class="play-button" onclick="togglePlay(this, 'songs/song6.mp3')">
-                <div class="play-icon"></div>
+                <span class="play-icon"></span>
             </button>
         </div>
 
-        
         <div class="music-card">
-            <img src="images/bmlg.jpg"  alt="Artist cover for Die With A Smile by Lady Gaga featuring Bruno Mars">
+            <img src="images/bmlg.jpg" alt="Song 7">
             <div class="music-info">
                 <h3><em>Die With A Smile</em></h3>
                 <p><strong><i>Lady Gaga <br> (feat. Bruno Mars) </i></strong></p>
                 <p><em><b>“Die With A Smile”</b></em> is a poignant exploration of love's enduring power in the face of life's fragility.</p>
             </div>
             <button class="play-button" onclick="togglePlay(this, 'songs/song7.mp3')">
-                <div class="play-icon"></div>
+                <span class="play-icon"></span>
             </button>
         </div>
 
-        
         <div class="music-card">
-            <img src="images/sza.jpg" alt="Artist cover for Snooze by SZA">
+            <img src="images/sza.jpg" alt="Song 8">
             <div class="music-info">
                 <h3><em>Snooze</em></h3>
                 <p><strong><i>SZA</i></strong></p>
-                <p><em><b>“Snooze”</b></em> explores the intense emotions of love, loyalty, and the fear of missing important moments with a partner. </p>
+                <p><em><b>“Snooze”</b></em> explores the intense emotions of love, loyalty, and the fear of missing important moments with a partner.</p>
             </div>
             <button class="play-button" onclick="togglePlay(this, 'songs/song8.mp3')">
-                <div class="play-icon"></div>
+                <span class="play-icon"></span>
             </button>
         </div>
 
-        
         <div class="music-card">
-            <img src="images/ivos.jpg" alt="Artist cover for Come Inside Of My Heart by IV OF SPADES">
+            <img src="images/ivos.jpg" alt="Song 9">
             <div class="music-info">
                 <h3><em>Come Inside Of My Heart</em></h3>
                 <p><strong><i>IV OF SPADES</i></strong></p>
                 <p><em><b>"Come Inside Of My Heart”</b></em> explores themes of love, vulnerability, and the desire for deep connection.</p>
             </div>
             <button class="play-button" onclick="togglePlay(this, 'songs/song9.mp3')">
-                <div class="play-icon"></div>
+                <span class="play-icon"></span>
             </button>
         </div>
 
-        
         <div class="music-card">
-            <img src="images/an.jpg"  alt="Artist cover for Happy w u by Arthur Nery featuring Jason Dhakal">
+            <img src="images/an.jpg" alt="Song 10">
             <div class="music-info">
                 <h3><em>Happy w u</em></h3>
                 <p><strong><i>Arthur Nery <br> (feat. Jason Dhakal) </i></strong></p>
                 <p><em><b>“Happy w u”</b></em> is all about a love so simple yet so affectionate that it brings pure bliss. It's a song that spells out how love can also be effortless.</p>
             </div>
             <button class="play-button" onclick="togglePlay(this, 'songs/song10.mp3')">
-                <div class="play-icon"></div>
+                <span class="play-icon"></span>
             </button>
         </div>
 
-        
         <div class="music-card">
-            <img src="images/tjm.jpg" alt="Arist cover for Palagi by TJ Monterde">
+            <img src="images/tjm.jpg" alt="Song 11">
             <div class="music-info">
                 <h3><em>Palagi</em></h3>
                 <p><strong><i>TJ Monterde</i></strong></p>
                 <p><em><b>"Palagi”</b></em> talks about someone promising to always be there for their loved one, no matter what may happen.</p>
             </div>
             <button class="play-button" onclick="togglePlay(this, 'songs/song11.mp3')">
-                <div class="play-icon"></div>
+                <span class="play-icon"></span>
             </button>
         </div>
 
-        
         <div class="music-card">
-            <img src="images/adie.jpg" alt="Artist cover for Tahanan by Adie">
+            <img src="images/adie.jpg" alt="Song 12">
             <div class="music-info">
                 <h3><em>Tahanan</em></h3>
                 <p><strong><i>Adie</i></strong></p>
                 <p><em><b>“Tahanan”</b></em> is a song about lovers who finally found their comfort places for each other.</p>
             </div>
             <button class="play-button" onclick="togglePlay(this, 'songs/song12.mp3')">
-                <div class="play-icon"></div>
+                <span class="play-icon"></span>
             </button>
         </div>
 
-        
         <div class="music-card">
-            <img src="images/eds.jpg" alt="Artist cover for Photograph by Ed Sheeran">
+            <img src="images/eds.jpg" alt="Song 13">
             <div class="music-info">
                 <h3><em>Photograph</em></h3>
                 <p><strong><i>Ed Sheeran</i></strong></p>
-                <p><em><b>“Photograph”</b></em> represents love, longing, memories, healing and hope.</p>
+                <p><em><b>“Photograph”</b></em> represents love, longing, memories, healing, and hope.</p>
             </div>
             <button class="play-button" onclick="togglePlay(this, 'songs/song13.mp3')">
-                <div class="play-icon"></div>
+                <span class="play-icon"></span>
             </button>
         </div>
 
-        
         <div class="music-card">
-            <img src="images/rex.jpg" alt="Artist cover for Happiness by Rex Orange County">
+            <img src="images/rex.jpg" alt="Song 14">
             <div class="music-info">
                 <h3><em>Happiness</em></h3>
                 <p><strong><i>Rex Orange County</i></strong></p>
                 <p><em><b>“Happiness”</b></em> shows that feeling or caring for someone even when you are unsure about yourself. Wanting to give the best you can to someone you love.</p>
             </div>
             <button class="play-button" onclick="togglePlay(this, 'songs/song14.mp3')">
-                <div class="play-icon"></div>
+                <span class="play-icon"></span>
             </button>
         </div>
 
         <div class="music-card">
-            <img src="images/dcku.jpg" alt="Artist cover for Get You by Daniel Caeser featuring Kali Uchis">
+            <img src="images/dcku.jpg" alt="Song 15">
             <div class="music-info">
                 <h3><em>Get You</em></h3>
                 <p><strong><i>Daniel Caeser <br> (feat. Kali Uchis)</i></strong></p>
-                <p><em><b>“Get You”</b></em> is a song about feeling grateful for a love that feels too good to be true. It’s about being with someone you really care about and wondering how you got so lucky to be with them. </p>
+                <p><em><b>“Get You”</b></em> is a song about feeling grateful for a love that feels too good to be true.</p>
             </div>
             <button class="play-button" onclick="togglePlay(this, 'songs/song15.mp3')">
-                <div class="play-icon"></div>
+                <span class="play-icon"></span>
             </button>
         </div>
 
-        
         <div class="music-card">
-            <img src="images/zack.jpg" alt="Artist cover for Give Me Your Forever by Zack Tabudlo">
+            <img src="images/zack.jpg" alt="Song 16">
             <div class="music-info">
                 <h3><em>Give Me Your Forever</em></h3>
                 <p><strong><i>Zack Tabudlo</i></strong></p>
-                <p><em><b>“Give Me Your Forever”</b></em> is a cute and romantic representation of how someone genuinely loves a person, and how love can make you do anything for the sake of your loved ones’ happiness. </p>
+                <p><em><b>“Give Me Your Forever”</b></em> is a cute and romantic representation of how someone genuinely loves a person.</p>
             </div>
             <button class="play-button" onclick="togglePlay(this, 'songs/song16.mp3')">
-                <div class="play-icon"></div>
+                <span class="play-icon"></span>
             </button>
         </div>
 
         <div class="music-card">
-            <img src="images/wte.jpg" alt="Artist cover for seasons by wave to earth">
+            <img src="images/wte.jpg" alt="Song 17">
             <div class="music-info">
                 <h3><em>seasons</em></h3>
                 <p><strong><i>wave to earth</i></strong></p>
-                <p><em><b>“seasons”</b></em> explores the conflicting feelings of love and grief. according to the song’s lyrics, the narrator is in love with someone but is afraid to be with them for fear that they would ruin their life.</p>
+                <p><em><b>“seasons”</b></em> explores the conflicting feelings of love and grief.</p>
             </div>
             <button class="play-button" onclick="togglePlay(this, 'songs/song17.mp3')">
-                <div class="play-icon"></div>
+                <span class="play-icon"></span>
             </button>
         </div>
 
         <div class="music-card">
-            <img src="images/dca.jpg" alt="Artist cover for Always by Daniel Caeser">
+            <img src="images/dca.jpg" alt="Song 18">
             <div class="music-info">
                 <h3><em>Always</em></h3>
                 <p><strong><i>Daniel Caeser</i></strong></p>
-                <p><em><b>“Always”</b></em> is a post-breakup jam that hits you right in the feels. Even though his lover has moved on to another guy, he can't seem to let her go.</p>
+                <p><em><b>“Always”</b></em> is a post-breakup jam that hits you right in the feels.</p>
             </div>
             <button class="play-button" onclick="togglePlay(this, 'songs/song18.mp3')">
-                <div class="play-icon"></div>
+                <span class="play-icon"></span>
             </button>
         </div>
 
         <div class="music-card">
-            <img src="images/twnd.jpg" alt="Artist cover for Save Your Tears by The Weeknd">
+            <img src="images/twnd.jpg" alt="Song 19">
             <div class="music-info">
                 <h3><em>Save Your Tears</em></h3>
                 <p><strong><i>The Weeknd</i></strong></p>
-                <p><em><b>"Save Your Tears”</b></em> explores themes of heartbreak, emotional pain, and the facade people sometimes maintain in relationships. The song reflects on the struggle of moving on after a breakup while still feeling the weight of past emotions.</p>
+                <p><em><b>"Save Your Tears”</b></em> explores themes of heartbreak, emotional pain, and the facade people sometimes maintain in relationships.</p>
             </div>
             <button class="play-button" onclick="togglePlay(this, 'songs/song19.mp3')">
-                <div class="play-icon"></div>
+                <span class="play-icon"></span>
             </button>
         </div>
 
         <div class="music-card">
-            <img src="images/joji.jpg" alt="Artist cover for Sanctuary by Joji">
+            <img src="images/joji.jpg" alt="Song 20">
             <div class="music-info">
                 <h3><em>Sanctuary</em></h3>
                 <p><strong><i>Joji</i></strong></p>
-                <p><em><b>"Sanctuary”</b></em> describes where he is in love with a girl but he's telling the girl to not wait for him. But he is aiming for something greater but it's not really what he needs.</p>
+                <p><em><b>"Sanctuary”</b></em> describes where he is in love with a girl but he's telling the girl to not wait for him.</p>
             </div>
             <button class="play-button" onclick="togglePlay(this, 'songs/song20.mp3')">
-                <div class="play-icon"></div>
+                <span class="play-icon"></span>
             </button>
         </div>
 
         <div class="music-card">
-            <img src="images/twnd.jpg" alt="Artist cover for Reminder by The Weeknd">
+            <img src="images/twnd.jpg" alt="Song 21">
             <div class="music-info">
                 <h3><em>Reminder</em></h3>
                 <p><strong><i>The Weeknd</i></strong></p>
-                <p><em><b>"Reminder”</b></em> he asserts his status as a big name while stressing that he's not kid-friendly. He reflects on winning a Teen Choice award for "Can't Feel My Face" and explains why he's more suited for a mature audience.</p>
+                <p><em><b>"Reminder”</b></em> asserts his status as a big name while stressing that he's not kid-friendly.</p>
             </div>
             <button class="play-button" onclick="togglePlay(this, 'songs/song21.mp3')">
-                <div class="play-icon"></div>
+                <span class="play-icon"></span>
             </button>
         </div>
 
         <div class="music-card">
-            <img src="images/dhr.jpg" alt="Artist cover for airplane thoughts by Dhruv">
+            <img src="images/dhr.jpg" alt="Song 22">
             <div class="music-info">
                 <h3><em>airplane thoughts</em></h3>
                 <p><strong><i>Dhruv</i></strong></p>
                 <p><em><b>"airplane thoughts”</b></em> is about saying goodbye to a lover, with no certainty of when you’ll see them next.</p>
             </div>
             <button class="play-button" onclick="togglePlay(this, 'songs/song22.mp3')">
-                <div class="play-icon"></div>
+                <span class="play-icon"></span>
             </button>
         </div>
 
         <div class="music-card">
-            <img src="images/laufey.jpg" alt="Artist cover for From The Start by Laufey">
+            <img src="images/laufey.jpg" alt="Song 23">
             <div class="music-info">
                 <h3><em>From The Start</em></h3>
                 <p><strong><i>Laufey</i></strong></p>
                 <p><em><b>"From The Start”</b></em> describes the awkwardness that takes hold when we’re in the presence of someone we secretly like.</p>
             </div>
             <button class="play-button" onclick="togglePlay(this, 'songs/song23.mp3')">
-                <div class="play-icon"></div>
+                <span class="play-icon"></span>
             </button>
         </div>
         
         <div class="music-card">
-            <img src="images/rico.jpg" alt="Artist cover for You'll Be Safe Here by Rico Blanco">
+            <img src="images/rico.jpg" alt="Song 24">
             <div class="music-info">
                 <h3><em>You'll Be Safe Here</em></h3>
                 <p><strong><i>Rico Blanco</i></strong></p>
                 <p><em><b>"You'll Be Safe Here”</b></em> emphasize the importance of having someone to lean on during tough times, highlighting the need for love, warmth, and strength.</p>
             </div>
             <button class="play-button" onclick="togglePlay(this, 'songs/song24.mp3')">
-                <div class="play-icon"></div>
+                <span class="play-icon"></span>
             </button>
         </div>
     </div>
@@ -506,19 +489,19 @@
                 if (currentButton === button) {
                     if (currentAudio.paused) {
                         currentAudio.play();
-                        button.innerHTML = '<div class="pause-icon"></div>';
+                        button.innerHTML = '<span class="pause-icon"></span>';
                         isGlobalPlaying = true;
                         updateGlobalPlayPauseButton();
                     } else {
                         currentAudio.pause();
-                        button.innerHTML = '<div class="play-icon"></div>';
+                        button.innerHTML = '<span class="play-icon"></span>';
                         isGlobalPlaying = false;
                         updateGlobalPlayPauseButton();
                     }
                     return;
                 } else {
                     currentAudio.pause();
-                    currentButton.innerHTML = '<div class="play-icon"></div>';
+                    currentButton.innerHTML = '<span class="play-icon"></span>';
                 }
             }
             if (currentButton !== button) {
@@ -526,7 +509,7 @@
                     currentAudio = new Audio(song);
                 }
                 currentAudio.play();
-                button.innerHTML = '<div class="pause-icon"></div>';
+                button.innerHTML = '<span class="pause-icon"></span>';
                 currentButton = button;
                 isGlobalPlaying = true;
                 updateGlobalPlayPauseButton();
@@ -538,18 +521,18 @@
                 if (isGlobalPlaying) {
                     currentAudio.pause();
                     isGlobalPlaying = false;
-                    currentButton.innerHTML = '<div class="play-icon"></div>';
+                    currentButton.innerHTML = '<span class="play-icon"></span>';
                 } else {
                     currentAudio.play();
                     isGlobalPlaying = true;
-                    currentButton.innerHTML = '<div class="pause-icon"></div>';
+                    currentButton.innerHTML = '<span class="pause-icon"></span>';
                 }
                 updateGlobalPlayPauseButton();
             }
         }
         function updateGlobalPlayPauseButton() {
             const globalPlayPauseButton = document.getElementById('global-play-pause');
-            globalPlayPauseButton.innerHTML = isGlobalPlaying ? '<div class="pause-icon"></div>' : '<div class="play-icon"></div>';
+            globalPlayPauseButton.innerHTML = isGlobalPlaying ? '<span class="pause-icon"></span>' : '<span class="play-icon"></span>';
         }
         const volumeSlider = document.getElementById('volume-slider');
         function updateVolume() {
@@ -559,6 +542,5 @@
         }
         volumeSlider.addEventListener('input', updateVolume);
     </script>
-    <!--Thanks to Cody AI for making the javascript part for it to work-->
 </body>
 </html>
